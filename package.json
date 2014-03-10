@@ -1,0 +1,19 @@
+{
+  "name": "teatime.io",
+  "version": "0.0.0",
+  "description": "The API for the teatime.io service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoitsro/teatime.io"
+  },
+  "author": "Ro Ramtohul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yoitsro/teatime.io/issues"
+  },
+  "homepage": "https://github.com/yoitsro/teatime.io"
+}
