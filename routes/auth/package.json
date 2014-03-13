@@ -1,0 +1,21 @@
+{
+  "name": "auth",
+  "version": "0.0.0",
+  "description": "Authentication routes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ro Ramtohul",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "mongoose": "~3.8.6",
+    "hapi": "~2.1.2",
+    "mongoose-time": "~0.1.0",
+    "bcrypt": "~0.7.7",
+    "uuid": "~1.4.1",
+    "hawk": "~2.1.0",
+    "hapi-auth-hawk": "~1.0.0",
+    "hapi-auth-basic": "~1.0.0"
+  }
+}

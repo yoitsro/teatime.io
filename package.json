@@ -4,7 +4,8 @@
   "description": "The API for the teatime.io service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test-cov",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/yoitsro/teatime.io/issues"
   },
-  "homepage": "https://github.com/yoitsro/teatime.io"
+  "homepage": "https://github.com/yoitsro/teatime.io",
+  "dependencies": {
+    "mongoose": "latest",
+    "hawk": "latest",
+    "bcrypt": "latest",
+    "mongoose-time": "latest",
+    "uuid": "latest",
+    "hapi-auth-hawk": "latest",
+    "async": "latest",
+    "joi": "latest",
+    "hapi": "latest",
+    "lab": "latest"
+  }
 }
