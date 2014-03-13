@@ -1,4 +1,4 @@
 teatime.io
 ==========
 
-The API for the teatime.io service
+The API for the http://teatime.io service.
