@@ -12,7 +12,7 @@ var roundSchema = new Mongoose.Schema({
     status: String,
     group: { type: Mongoose.Schema.Types.ObjectId, ref: 'Group' },
     owner: {},
-    members: [],
+    members: [ Mongoose.model('User').schema ],
     orders: [ orderSchema ]
 });
 

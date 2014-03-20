@@ -24,5 +24,33 @@
         return parseInt(req.query.skip, 10);
     };
 
+    utils.sortUserProfilesAlphabetically = function sortUserProfilesAlphabetically(a, b) {
+        if(!a.name) {
+            return -1;
+        }
+
+        if(!a.name.first) {
+            return -1;
+        }
+
+        if(!b.name) {
+            return -1;
+        }
+
+        if(!b.name.first) {
+            return -1;
+        }
+
+        if(a.name.first < b.name.first) {
+            return -1;
+        }
+
+        if(a.name.first > b.name.first) {
+            return 1;
+        }
+
+        return -1;
+    };
+    
     module.exports = utils;
 })();

@@ -1,15 +1,15 @@
-var mongoose         = require('mongoose');
+var Mongoose         = require('mongoose');
 var timestamp        = require('mongoose-time');
 
-var groupSchema = new mongoose.Schema({
+var groupSchema = new Mongoose.Schema({
 	name: String,
-    owners: [],
-    members: [],
-    requests: [],
+    owners: [ Mongoose.model('User').schema ],
+    members: [ Mongoose.model('User').schema ],
+    requests: [ Mongoose.model('User').schema ],
     image: String,
     loc: [],
     searchable: {type: Boolean, default: false}
 });
 
 groupSchema.plugin(timestamp());
-module.exports = mongoose.model('Group', groupSchema);
+module.exports = Mongoose.model('Group', groupSchema);

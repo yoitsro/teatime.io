@@ -54,15 +54,11 @@ describe('User', function () {
     });
 
     after(function(done) {
-        dbConnection.connection.db.close(false, function(err, result) {
-            dbConnection = Mongoose.connect('mongodb://localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
-                dbConnection.connection.db.dropDatabase( function(err) {
-                    dbConnection.connection.db.close(false, function(err, result) {
-                        return done();
-                    });
-                });
+        dbConnection.connection.db.dropDatabase( function(err) {
+            dbConnection.connection.db.close(false, function(err, result) {
+                return done();
             });
-        });       
+        });
     });
 
     process.env.PAGINATE_LIMIT_MAX = 500;
@@ -214,32 +210,4 @@ describe('User', function () {
         });
     });
 
-    it('cannot update their own profile because of DB', function(done) {
-        dbConnection.connection.db.addUser('adminUser', 'adminPassword', { roles:['read'] }, function(err, result) {
-            if(err) {
-                throw err;
-            }
-
-            dbConnection.connection.db.close(false, function(err, result) {
-                dbConnection = Mongoose.connect('mongodb://adminUser:adminPassword@localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
-                    var endpoint = '/users/me';
-                    var url = SERVER_URL + endpoint;
-                    var method = 'PUT';
-
-                    var payload = {
-                        email : "existing@users.com",
-                        name: "Barry White",
-                        password: "password",
-                        confirmPassword: "password"
-                    };
-
-                    server.inject({url: url, method: method, payload: payload, headers: { authorization: hawkHeader(endpoint, method).field } }, function(res) {
-                        expect(res.statusCode).to.equal(500);
-                        done();
-                    });
-                });
-
-            });
-        });
-    });
 });

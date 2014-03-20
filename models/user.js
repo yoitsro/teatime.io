@@ -22,7 +22,7 @@ var userSchema = new mongoose.Schema({
 	},
 	email: String,
     password: String,
-    api_keys: [String],
+    api_keys: [ String ],
     image: {
         profile: String,
         mug: String
@@ -75,7 +75,6 @@ userSchema.methods.comparePassword = function(candidatePassword, done) {
 userSchema.methods.desensitize = function() {
     var user = this.toObject();
     delete user.api_keys;
-    delete user.registered;
     delete user.email;
     delete user.password;
     delete user.updated_at;

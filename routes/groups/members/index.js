@@ -16,10 +16,10 @@ exports.register = function(server, options, next) {
         // { method: 'GET', path: '/groups/{id}/rounds/{roundId}', config: groups.getTeaRound },
         // { method: 'DELETE', path: '/groups/{id}/rounds/{roundId}', config: groups.deleteTeaRound },
 
-        { method: 'GET', path: '/groups/{id}/members', config: members.getMembers }
-        // { method: 'POST', path: '/groups/{id}/members', config: members.addMembers },
-        // { method: 'GET', path: '/groups/{id}/members/{memberId}', config: members.getMember },
-        // { method: 'DELETE', path: '/groups/{id}/members/{memberId}', config: members.deleteMember }
+        { method: 'GET', path: '/groups/{id}/members', config: members.getMembers },
+        { method: 'POST', path: '/groups/{id}/members', config: members.addMembers },
+        { method: 'GET', path: '/groups/{id}/members/{memberId}', config: members.getMember },
+        { method: 'DELETE', path: '/groups/{id}/members/{memberId}', config: members.deleteMember }
 
         // { method: 'GET', path: '/groups/{id}/rounds/{roundId}/orders', config: groups.getOrders },
         // { method: 'POST', path: '/groups/{id}/rounds/{roundId}/orders', config: groups.createOrder },

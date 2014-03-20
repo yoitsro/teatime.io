@@ -24,15 +24,11 @@ describe('Authorization', function () {
     });
 
     after(function(done) {
-        dbConnection.connection.db.close(false, function(err, result) {
-            dbConnection = Mongoose.connect('mongodb://localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
-                dbConnection.connection.db.dropDatabase( function(err) {
-                    dbConnection.connection.db.close(false, function(err, result) {
-                        return done();
-                    });
-                });
+        dbConnection.connection.db.dropDatabase( function(err) {
+            dbConnection.connection.db.close(false, function(err, result) {
+                return done();
             });
-        });       
+        });
     });
     
 
@@ -75,7 +71,7 @@ describe('Authorization', function () {
         });
     });
 
-    it('fails to register an existing user', function(done) {
+    it('errors on registering an existing user', function(done) {
         var user = {
             name: 'Test User',
             password: 'password',
@@ -106,7 +102,7 @@ describe('Authorization', function () {
         });
     });
 
-    it('cannot validate a user', function(done) {
+    it('errors on validating a user', function(done) {
         server.inject({url: 'http://example.com:8080/', method: 'GET', headers: { authorization: hawkHeader('/fish').field } }, function(res) {
             expect(res.statusCode).to.equal(401);
             done();
@@ -125,7 +121,7 @@ describe('Authorization', function () {
         });
     });
 
-    it('cannot authorize a user because of wrong password', function(done) {
+    it('errors on authorizing a user because of wrong password', function(done) {
         var user = {
             password: 'wrong password',
             email: 'test@users.com'
@@ -137,7 +133,7 @@ describe('Authorization', function () {
         });
     });
 
-    it('cannot authorize a user because of non-existant user', function(done) {
+    it('errors on authorizing a user because of non-existant user', function(done) {
         var user = {
             password: 'password',
             email: 'idontexist@users.com'
@@ -145,49 +141,6 @@ describe('Authorization', function () {
 
         server.inject({url: '/authorize', method: 'POST', payload: user}, function(res) {
             expect(res.statusCode).to.equal(401);
-            done();
-        });
-    });
-
-    it('cannot register a new user because of DB', function(done) {
-        dbConnection.connection.db.addUser('adminUser', 'adminPassword', { roles:['read'] }, function(err, result) {
-            if(err) {
-                throw err;
-            }
-
-            dbConnection.connection.db.close(false, function(err, result) {
-                dbConnection = Mongoose.connect('mongodb://adminUser:adminPassword@localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
-                    var user = {
-                        name: 'Test User',
-                        password: 'password',
-                        email: 'test@users.com'
-                    };
-
-                    server.inject({url: '/register', method: 'POST', payload: user}, function(res) {
-                        expect(res.statusCode).to.equal(500);
-                        done();
-                    });
-                });
-
-            });
-        });
-    });
-
-    it('cannot validate a user because of DB', function(done) {
-        server.inject({url: 'http://example.com:8080/', method: 'GET', headers: { authorization: hawkHeader('/').field } }, function(res) {
-            expect(res.statusCode).to.equal(500);
-            done();
-        });
-    });
-
-    it('cannot authorize a user because of DB', function(done) {
-        var user = {
-            password: 'password',
-            email: 'test@users.com'
-        };
-
-        server.inject({url: '/authorize', method: 'POST', payload: user}, function(res) {
-            expect(res.statusCode).to.equal(500);
             done();
         });
     });
