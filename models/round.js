@@ -10,7 +10,7 @@ var orderSchema = new Mongoose.Schema({
 
 var roundSchema = new Mongoose.Schema({
     status: String,
-    group: { type: Mongoose.Schema.Types.ObjectId, ref: 'Group' },
+    team: { type: Mongoose.Schema.Types.ObjectId, ref: 'Team' },
     owner: {},
     members: [ Mongoose.model('User').schema ],
     orders: [ orderSchema ]

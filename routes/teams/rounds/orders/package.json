@@ -1,7 +1,7 @@
 {
-  "name": "group-rounds-orders",
+  "name": "team-rounds-orders",
   "version": "0.0.0",
-  "description": "Group round orders routes",
+  "description": "Team round orders routes",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

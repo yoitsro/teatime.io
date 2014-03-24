@@ -13,7 +13,7 @@ var after = Lab.after;
 var describe = Lab.experiment;
 var it = Lab.test;
 
-describe('Group members', function () {
+describe('Team members', function () {
 
     var dbConnection;
 
@@ -60,7 +60,7 @@ describe('Group members', function () {
         done();
     });
 
-    it('errors on adding a new member because this user doesn\'t own this group', function(done) {
+    it('errors on adding a new member because this user doesn\'t own this team', function(done) {
         done();
     });
 
@@ -68,7 +68,7 @@ describe('Group members', function () {
         done();
     });
 
-    it('errors on getting members because this user doesn\'t own this group', function(done) {
+    it('errors on getting members because this user doesn\'t own this team', function(done) {
         done();
     });
 
@@ -76,7 +76,7 @@ describe('Group members', function () {
         done();
     });
 
-    it('errors on getting a member because this user doesn\'t belong to this group', function(done) {
+    it('errors on getting a member because this user doesn\'t belong to this team', function(done) {
         done();
     });
 
@@ -84,7 +84,7 @@ describe('Group members', function () {
         done();
     });
 
-    it('errors on deleting a member because this user doesn\'t own this group', function(done) {
+    it('errors on deleting a member because this user doesn\'t own this team', function(done) {
         done();
     });
 

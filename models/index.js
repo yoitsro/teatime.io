@@ -1,6 +1,6 @@
 var models = [
   './user',
-  './group',
+  './team',
   './round'
 ];
 

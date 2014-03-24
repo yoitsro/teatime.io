@@ -1,7 +1,7 @@
 {
-  "name": "groups",
+  "name": "teams",
   "version": "0.0.0",
-  "description": "Group routes",
+  "description": "Team routes",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

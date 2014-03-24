@@ -26,7 +26,7 @@ server.pack.require(['hapi-auth-hawk'], function (err) {
     server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
 });
 
-server.pack.require(['./routes/users', './routes/auth', './routes/groups', './routes/groups/members', './routes/groups/rounds', './routes/groups/rounds/orders'], function (err) {
+server.pack.require(['./routes/users', './routes/auth', './routes/teams', './routes/teams/members', './routes/teams/rounds', './routes/teams/rounds/orders'], function (err) {
 
 });
 

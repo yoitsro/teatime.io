@@ -3,7 +3,7 @@ var Lab      = require('lab');
 var Hapi     = require('hapi');
 var Hawk     = require('hawk');
 var Mongoose = require('mongoose');
-var Auth     = require('../../lib/auth')();
+var Auth     = require('../../../lib/auth')();
 
 // Test shortcuts
 
@@ -13,7 +13,7 @@ var after = Lab.after;
 var describe = Lab.experiment;
 var it = Lab.test;
 
-describe('Group', function () {
+describe('Team rounds', function () {
 
     var dbConnection;
 
@@ -42,7 +42,7 @@ describe('Group', function () {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.require(['../../routes/auth'], function(err) {
+    server.pack.require(['../../../routes/auth'], function(err) {
 
     });
 
@@ -56,11 +56,39 @@ describe('Group', function () {
     };
 
 
-    it('creates a new group', function(done) {
+    it('creates a new round', function(done) {
         done();
     });
 
-    it('errors on creating a new group', function(done) {
+    it('errors on creating a new round because this team doesn\'t exist', function(done) {
+        done();
+    });
+
+    it('gets a round', function(done) {
+        done();
+    });
+
+    it('errors on getting a round because this team doesn\'t exist', function(done) {
+        done();
+    });
+
+    it('gets rounds', function(done) {
+        done();
+    });
+
+    it('errors on getting rounds because this team doesn\'t exist', function(done) {
+        done();
+    });
+
+    it('deletes a round', function(done) {
+        done();
+    });
+
+    it('errors on deleting a round because this team doesn\'t exist', function(done) {
+        done();
+    });
+
+    it('errors on deleting a round because this user doesn\'t own the round', function(done) {
         done();
     });
 
