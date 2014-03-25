@@ -16,7 +16,7 @@ process.env.SELECT_FIELDS_USER = "_id name registered image";
 
 var config = {
     hostname: 'localhost',
-    port: +process.env.PORT || 9001
+    port: +process.env.npm_package_config_PORT || 9001
 };
 
 // Create a server with a host and port
@@ -30,9 +30,7 @@ server.pack.require(['./routes/users', './routes/auth', './routes/teams', './rou
 
 });
 
-
-//mongoose.connect('mongodb://abcab:AbCab1!@designbyro.com:27017/abcab', {db: { native_parser: true }}, function(err) {
-mongoose.connect('mongodb://localhost:27017/teatime', {db: { native_parser: true }}, function(err) {
+mongoose.connect(process.env.npm_package_config_MONGO_URL, {db: { native_parser: true }}, function(err) {
     if (err) {
         throw err;
     }
