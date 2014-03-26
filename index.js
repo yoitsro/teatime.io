@@ -23,7 +23,7 @@ var config = {
 var server = Hapi.createServer(config.hostname, config.port, {cors: true});
 
 server.pack.require(['hapi-auth-hawk'], function (err) {
-    server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
+    server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials, hawk:{port: 443}});
 });
 
 server.pack.require(['./routes/users', './routes/auth', './routes/teams', './routes/teams/members', './routes/teams/rounds', './routes/teams/rounds/orders'], function (err) {
@@ -38,7 +38,7 @@ mongoose.connect(process.env.npm_package_config_MONGO_URL, {db: { native_parser:
     console.log("Connected to MongoDB");
     server.start(function() {
 
-        var uri = process.env.HOST ? 'http://' + process.env.HOST + ':' + process.env.PORT : 'http://' + config.hostname + ':' + config.port;
+        var uri = process.env.HOST ? 'https://' + process.env.HOST + ':' + process.env.PORT : 'https://' + config.hostname + ':' + config.port;
         console.log('Server started at ' + uri);
         
     });
