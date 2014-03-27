@@ -21,6 +21,7 @@ var userSchema = new mongoose.Schema({
     	last: String
 	},
 	email: String,
+    hash: String,
     password: String,
     api_keys: [ String ],
     image: {
@@ -37,8 +38,12 @@ userSchema.virtual('name.full').get(function () {
 userSchema.pre('save', function(next) {
     var user = this;
 
+    if(user.isModified('email')) {
+        user.hash = require('crypto').createHash('md5').update(user.email).digest("hex");
+    }
+
     // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) {
+    if(!user.isModified('password')) {
         return next();
     }
 
