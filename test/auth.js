@@ -55,11 +55,25 @@ describe('Authorization', function () {
         return Hawk.client.header('http://example.com:8080' + path, 'GET', {credentials: credentials});
     };
 
+    it('errors on registering a new user due to different passwords', function(done) {
+        var user = {
+            name: 'Test User',
+            password: 'password',
+            confirmPassword: 'differentpassword',
+            email: 'test@users.com'
+        };
+
+        server.inject({url: '/register', method: 'POST', payload: user}, function(res) {
+            expect(res.statusCode).to.equal(400);
+            done();
+        });
+    });
 
     it('registers a new user', function(done) {
         var user = {
             name: 'Test User',
             password: 'password',
+            confirmPassword: 'password',
             email: 'test@users.com'
         };
 
@@ -71,10 +85,11 @@ describe('Authorization', function () {
         });
     });
 
-    it('errors on registering an existing user', function(done) {
+    it('errors on registering an existing user because already exists', function(done) {
         var user = {
             name: 'Test User',
             password: 'password',
+            confirmPassword: 'password',
             email: 'test@users.com'
         };
 
