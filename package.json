@@ -27,6 +27,8 @@
     "async": "latest",
     "joi": "latest",
     "hapi": "latest",
-    "lab": "latest"
+    "lab": "latest",
+    "intimidate": "^0.1.2",
+    "s3": "^0.3.1"
   }
 }
