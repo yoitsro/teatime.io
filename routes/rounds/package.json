@@ -1,0 +1,13 @@
+{
+  "name": "rounds",
+  "version": "0.0.0",
+  "description": "Rounds convenience routes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ro Ramtohul",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+  }
+}

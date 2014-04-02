@@ -7,6 +7,8 @@ var config = {
     port: +process.env.PORT || 9001
 };
 
+
+
 // Create a server with a host and port
 var server = Hapi.createServer(config.hostname, config.port, {cors: true});
 
@@ -14,7 +16,15 @@ server.pack.require(['hapi-auth-hawk'], function (err) {
     server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials, hawk: {port: process.env.NODE_ENV === 'production' ? 443 : config.port}});
 });
 
-server.pack.require(['./routes/users', './routes/auth', './routes/teams', './routes/teams/members', './routes/teams/rounds', './routes/teams/rounds/orders'], function (err) {
+server.pack.require(['./routes/users', './routes/auth'], function (err) {
+
+});
+
+server.pack.require(['./routes/teams', './routes/teams/members', './routes/teams/rounds'], function (err) {
+
+});
+
+server.pack.require(['./routes/rounds'], function (err) {
 
 });
 

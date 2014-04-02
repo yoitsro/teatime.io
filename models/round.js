@@ -7,6 +7,7 @@ var orderSchema = new Mongoose.Schema({
     order: String,
     details: String
 });
+orderSchema.plugin(Timestamp());
 
 var roundSchema = new Mongoose.Schema({
     status: String,
@@ -17,5 +18,6 @@ var roundSchema = new Mongoose.Schema({
 });
 
 roundSchema.plugin(Timestamp());
+
 module.exports = Mongoose.model('Round', roundSchema);
 module.exports = Mongoose.model('Order', orderSchema);
