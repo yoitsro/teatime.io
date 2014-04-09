@@ -73,7 +73,6 @@ describe('Authorization', function () {
         var user = {
             name: 'Test User',
             password: 'password',
-            confirmPassword: 'password',
             email: 'test@users.com'
         };
 
@@ -89,7 +88,6 @@ describe('Authorization', function () {
         var user = {
             name: 'Test User',
             password: 'password',
-            confirmPassword: 'password',
             email: 'test@users.com'
         };
 

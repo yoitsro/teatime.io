@@ -36,7 +36,7 @@ describe('User', function () {
                 "first" : "Barry",
                 "last" : "White"
             },
-            "password" : "$2a$10$lO/rmG5yDJI6LpRBjBnySetXQgaKfYOmuldDyELlOMjtRYX3zE80i",
+            "password" : "$2a$10$5bNmnl.IexSpoaXNtFE63ef0Smtzk.7JqYLuHY3w.hJBrsfMYaHkm",
             "registered" : true,
         };
 
@@ -153,8 +153,8 @@ describe('User', function () {
         var method = 'PUT';
 
         var payload = {
-            password: "password",
-            confirmPassword: "password"
+            newPassword: "a new password",
+            oldPassword: "password"
         };
 
         server.inject({url: url, method: method, payload: payload, headers: { authorization: hawkHeader(endpoint, method).field } }, function(res) {
@@ -163,18 +163,33 @@ describe('User', function () {
         });
     });
 
-    it('cannot update their own password because not matching', function(done) {
+    it('cannot update their own password because original password was not sent', function(done) {
         var endpoint = '/users/me';
         var url = SERVER_URL + endpoint;
         var method = 'PUT';
 
         var payload = {
-            password: "password",
-            confirmPassword: "adifferentpassword"
+            newPassword: "password"
         };
 
         server.inject({url: url, method: method, payload: payload, headers: { authorization: hawkHeader(endpoint, method).field } }, function(res) {
             expect(res.statusCode).to.equal(400);
+            done();
+        });
+    });
+
+    it('cannot update their own password because original password is incorrect', function(done) {
+        var endpoint = '/users/me';
+        var url = SERVER_URL + endpoint;
+        var method = 'PUT';
+
+        var payload = {
+            newPassword: "password",
+            oldPassword: "incorrectpassword"
+        };
+
+        server.inject({url: url, method: method, payload: payload, headers: { authorization: hawkHeader(endpoint, method).field } }, function(res) {
+            expect(res.statusCode).to.equal(401);
             done();
         });
     });
@@ -200,8 +215,8 @@ describe('User', function () {
         var payload = {
             email : "existing@users.com",
             name: "Barry White",
-            password: "password",
-            confirmPassword: "password"
+            newPassword: "password",
+            oldPassword: "password"
         };
 
         server.inject({url: url, method: method, payload: payload, headers: { authorization: hawkHeader(endpoint, method).field } }, function(res) {
