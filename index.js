@@ -16,15 +16,19 @@ server.pack.require(['hapi-auth-hawk'], function (err) {
     server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials, hawk: {port: process.env.NODE_ENV === 'production' ? 443 : config.port}});
 });
 
-server.pack.require(['./routes/users', './routes/auth'], function (err) {
+server.pack.require(['./routes/users', './routes/auth'], function () {
 
 });
 
-server.pack.require(['./routes/teams', './routes/teams/members', './routes/teams/rounds'], function (err) {
+server.pack.require(['./routes/teams', './routes/teams/members', './routes/teams/rounds'], function () {
 
 });
 
-server.pack.require(['./routes/rounds'], function (err) {
+server.pack.require(['./routes/rounds'], function () {
+
+});
+
+server.pack.require('lout', function() {
 
 });
 
