@@ -1,5 +1,7 @@
 var Domain   = require('domain');
+var Code     = require('code'); 
 var Lab      = require('lab');
+var lab      = exports.lab = Lab.script();
 var Hapi     = require('hapi');
 var Hawk     = require('hawk');
 var Mongoose = require('mongoose');
@@ -7,11 +9,11 @@ var Auth     = require('../../lib/auth')();
 
 // Test shortcuts
 
-var expect = Lab.expect;
-var before = Lab.before;
-var after = Lab.after;
-var describe = Lab.experiment;
-var it = Lab.test;
+var expect = Code.expect;
+var before = lab.before;
+var after = lab.after;
+var describe = lab.experiment;
+var it = lab.test;
 
 describe('Team members', function () {
 
@@ -25,7 +27,7 @@ describe('Team members', function () {
 
     after(function(done) {
         dbConnection.connection.db.dropDatabase( function(err) {
-            dbConnection.connection.db.close(false, function(err, result) {
+            Mongoose.disconnect(function(err, result) {
                 return done();
             });
         });  
@@ -38,11 +40,11 @@ describe('Team members', function () {
 
     var server = new Hapi.Server();
 
-    server.pack.require(['hapi-auth-hawk'], function (err) {
+    server.pack.register(require('hapi-auth-hawk'), function (err) {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.require(['../../routes/auth'], function(err) {
+    server.pack.register(require('../../routes/auth'), function(err) {
 
     });
 

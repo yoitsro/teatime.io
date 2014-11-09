@@ -1,17 +1,22 @@
-var Domain   = require('domain');
-var Lab      = require('lab');
-var Hapi     = require('hapi');
-var Hawk     = require('hawk');
-var Mongoose = require('mongoose');
-var Auth     = require('../../lib/auth')();
+var Domain          = require('domain');
+var Code            = require('code'); 
+var Lab             = require('lab');
+var lab             = exports.lab = Lab.script();
+var Hapi            = require('hapi');
+var Hawk            = require('hawk');
+var Mongoose        = require('mongoose');
+var Auth            = require('../../lib/auth')();
+var FormData        = require('form-data');
+var StreamToPromise = require('stream-to-promise');
+var Fs              = require('fs');
 
 // Test shortcuts
 
-var expect = Lab.expect;
-var before = Lab.before;
-var after = Lab.after;
-var describe = Lab.experiment;
-var it = Lab.test;
+var expect = Code.expect;
+var before = lab.before;
+var after = lab.after;
+var describe = lab.experiment;
+var it = lab.test;
 
 describe('Team', function () {
 
@@ -40,22 +45,25 @@ describe('Team', function () {
             "registered" : true,
         };
 
-        var collection = dbConnection.connection.db.collection("users");
+        var collection = Mongoose.connection.db.collection('users');
         // Insert a single document
-        collection.insert(user, function() {
+        collection.insert(user, function(err) {
             return done();
         });
     };
 
     before(function(done) {
-        dbConnection = Mongoose.connect('mongodb://localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
+        Mongoose.connect('mongodb://localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
+            if (err) {
+                throw err;
+            }
             initUser(done);
         });
     });
 
     after(function(done) {
-        dbConnection.connection.db.dropDatabase( function(err) {
-            dbConnection.connection.db.close(false, function(err, result) {
+        Mongoose.connection.db.dropDatabase( function(err) {
+            Mongoose.disconnect(function(err, result) {
                 return done();
             });
         });
@@ -66,17 +74,13 @@ describe('Team', function () {
     process.env.SELECT_FIELDS_USER = "_id name registered image";
 
     var server = new Hapi.Server();
+    // var server = new Hapi.Server(null, null, {debug: {request:['error']}});
 
-    server.on('internalError', function (request, err) {
-
-        console.log('Error response (500) sent for request: ' + request.id + ' because: ' + err.message);
-    });
-
-    server.pack.require(['hapi-auth-hawk'], function (err) {
+    server.pack.register(require('hapi-auth-hawk'), function (err) {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.require(['../../routes/teams'], function(err) {
+    server.pack.register(require('../../routes/teams'), function(err) {
 
     });
 
@@ -92,22 +96,66 @@ describe('Team', function () {
         var url = SERVER_URL + endpoint;
         var method = 'POST';
 
-        var payload = {
+        var form = new FormData();
+        form.append('image', Fs.createReadStream(__dirname + '/lout.png'));
+        form.append('json', JSON.stringify({
             name: 'A NEW TEAM',
             members: ['g@g.com', 'barry@white.com'],
             loc: [54.11, -27.3],
             searchable: true,
-            image: "test"
+        }));
+
+        var headers = form.getHeaders();
+        headers.authorization = hawkHeader(endpoint, method).field;
+
+        StreamToPromise(form).then(function(payload) {
+            server.inject({url: url, method: method, headers: headers, payload: payload}, function(res) {
+                expect(res.statusCode).to.equal(201);
+                done();
+            });
+        });
+    });
+
+    it('creates a new team without an image', function(done) {
+        var endpoint = '/teams';
+        var url = SERVER_URL + endpoint;
+        var method = 'POST';
+
+        var payload = {
+            name: 'A NEWer TEAM',
+            members: ['g@g.com', 'barry@white.com'],
+            loc: [54.11, -27.3],
+            searchable: true,
         };
 
-        server.inject({url: url, method: method, headers: { authorization: hawkHeader(endpoint, method).field, 'content-type':'multipart/form-data; boundary=-------fdshfasf8dsof8aig3ohqogfa' }, payload: payload}, function(res) {
+        server.inject({url: url, method: method, headers: {authorization: hawkHeader(endpoint, method).field}, payload: payload}, function(res) {
             expect(res.statusCode).to.equal(201);
             done();
         });
     });
 
-    it('errors on creating a new team', function(done) {
-        done();
+    it('errors on creating a new team because no members', function(done) {
+        var endpoint = '/teams';
+        var url = SERVER_URL + endpoint;
+        var method = 'POST';
+
+        var form = new FormData();
+        form.append('image', Fs.createReadStream(__dirname + '/lout.png'));
+        form.append('json', JSON.stringify({
+            name: 'A NEW TEAM',
+            loc: [54.11, -27.3],
+            searchable: true,
+        }));
+
+        var headers = form.getHeaders();
+        headers.authorization = hawkHeader(endpoint, method).field;
+
+        StreamToPromise(form).then(function(payload) {
+            server.inject({url: url, method: method, headers: headers, payload: payload}, function(res) {
+                expect(res.statusCode).to.equal(400);
+                done();
+            });
+        });
     });
 
 });

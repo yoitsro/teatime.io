@@ -18,19 +18,25 @@
   },
   "homepage": "https://github.com/yoitsro/teatime.io",
   "dependencies": {
-    "mongoose": "latest",
-    "hawk": "latest",
-    "bcrypt": "latest",
-    "mongoose-time": "latest",
-    "uuid": "latest",
-    "hapi-auth-hawk": "latest",
-    "async": "latest",
-    "joi": "latest",
-    "hapi": "latest",
+    "async": "^0.9.0",
+    "aws-sdk": "^2.0.25",
+    "bcrypt": "^0.8.0",
+    "hapi": "^7.5.0",
+    "hapi-auth-hawk": "^1.1.1",
+    "hoek": "^2.8.1",
+    "joi": "^4.8.1",
+    "lout": "^5.1.1",
+    "mongoose": "^3.8.19",
+    "mongoose-time": "^0.1.0",
     "s3": "^0.3.1",
-    "lout": "latest"
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
-    "lab": "latest"
+    "code": "^1.2.1",
+    "form-data": "^0.1.4",
+    "grunt": "^0.4.5",
+    "lab": "latest",
+    "nodemon": "^1.2.1",
+    "stream-to-promise": "^1.0.4"
   }
 }

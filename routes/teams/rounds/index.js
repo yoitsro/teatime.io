@@ -20,3 +20,7 @@ exports.register = function(server, options, next) {
 		{ method: 'PUT', path: '/teams/{id}/rounds/{roundId}/orders/{orderId}', config: orders.updateOrder }
 	]);
 };
+
+exports.register.attributes = {
+    pkg: require('./package.json')
+};

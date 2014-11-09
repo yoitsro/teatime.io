@@ -8,3 +8,7 @@ exports.register = function(server, options, next) {
 		{ method: 'GET', path: '/rounds', config: rounds.getAllRounds }
 	]);
 };
+
+exports.register.attributes = {
+    pkg: require('./package.json')
+};
