@@ -38,13 +38,20 @@ describe('Team members', function () {
     process.env.PAGINATE_LIMIT     = 100;
     process.env.SELECT_FIELDS_USER = "_id name registered image";
 
-    var server = new Hapi.Server();
+    var config = {
+        host: 'localhost',
+        port: +process.env.PORT || 9001
+    };
 
-    server.pack.register(require('hapi-auth-hawk'), function (err) {
+
+    var server = new Hapi.Server();
+    server.connection(config)
+
+    server.register(require('hapi-auth-hawk'), function (err) {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.register(require('../../routes/auth'), function(err) {
+    server.register(require('../../routes/auth'), function(err) {
 
     });
 

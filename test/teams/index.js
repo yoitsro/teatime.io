@@ -73,14 +73,19 @@ describe('Team', function () {
     process.env.PAGINATE_LIMIT     = 100;
     process.env.SELECT_FIELDS_USER = "_id name registered image";
 
-    var server = new Hapi.Server();
-    // var server = new Hapi.Server(null, null, {debug: {request:['error']}});
+    var config = {
+        host: 'localhost',
+        port: +process.env.PORT || 9001
+    };
 
-    server.pack.register(require('hapi-auth-hawk'), function (err) {
+    var server = new Hapi.Server();
+    server.connection(config)
+
+    server.register(require('hapi-auth-hawk'), function (err) {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.register(require('../../routes/teams'), function(err) {
+    server.register(require('../../routes/teams'), function(err) {
 
     });
 

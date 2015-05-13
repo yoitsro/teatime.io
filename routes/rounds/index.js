@@ -7,6 +7,8 @@ exports.register = function(server, options, next) {
 	server.route([
 		{ method: 'GET', path: '/rounds', config: rounds.getAllRounds }
 	]);
+
+	return next();
 };
 
 exports.register.attributes = {

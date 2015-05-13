@@ -49,13 +49,13 @@ describe('User', function () {
         });
     };
 
-    before(function(done) {
+    before(function (done) {
         dbConnection = Mongoose.connect('mongodb://localhost:27017/teatime-test', {db: { native_parser: true }}, function(err) {
             initUser(done);
         });
     });
 
-    after(function(done) {
+    after(function (done) {
         dbConnection.connection.db.dropDatabase( function(err) {
             Mongoose.disconnect(function(err, result) {
                 return done();
@@ -67,13 +67,19 @@ describe('User', function () {
     process.env.PAGINATE_LIMIT     = 100;
     process.env.SELECT_FIELDS_USER = "_id name registered image";
 
-    var server = new Hapi.Server();
+    var config = {
+        host: 'localhost',
+        port: +process.env.PORT || 9001
+    };
 
-    server.pack.register(require('hapi-auth-hawk'), function (err) {
+    var server = new Hapi.Server();
+    server.connection(config)
+
+    server.register(require('hapi-auth-hawk'), function (err) {
         server.auth.strategy('hawk', 'hawk', { getCredentialsFunc: Auth.getCredentials });
     });
 
-    server.pack.register([
+    server.register([
         require('../routes/auth'),
         require('../routes/users')
     ], function(err) {

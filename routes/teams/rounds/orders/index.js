@@ -1,6 +1,7 @@
 var Orders = require('../../../../lib/teams/rounds/orders');
 
-exports.register = function(server, options, next) {
+exports.register = function (server, options, next) {
+	
     var orders = new Orders(server);
     server.bind(orders);
 
@@ -11,6 +12,8 @@ exports.register = function(server, options, next) {
 		{ method: 'DELETE', path: '/teams/{id}/rounds/{roundId}/orders/{orderId}', config: orders.deleteOrder },
 		{ method: 'PUT', path: '/teams/{id}/rounds/{roundId}/orders/{orderId}', config: orders.updateOrder }
 	]);
+
+	return next();
 };
 
 exports.register.attributes = {
